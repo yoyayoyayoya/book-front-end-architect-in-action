@@ -226,7 +226,7 @@ git add .
 #### .editorconfig
 [EditorConfig](http://editorconfig.org) 帮助开发者们在不同的编辑器与IDE之间定义与维护一致性的代码开发风格。主要作用说白了就是统一代码开发风格。比如说行结束符、缩进大小、字符集的设置等等。在实际的项目开发过程中，即使所有开发者都使用同一种开发工具，也不能确保所有开发者的代码开发风格能保持一致，大部分情况下会因为个人开发习惯而导致缩进大小不一致、字符集不同、行结束符不同的情况，造成项目开发中发生代码冲突，往往这些冲突会增加大量的代码重置和风格一致化调整带来的沟通成本。在以往大部分的项目管理中，会通过文档或强制规则来确保代码风格的统一性。但我们自己知道，通过人为的管理代码风格根本不靠谱。自动化的技术支持才是王道。EditorConfig为我们提供了一条康庄大道。具体的配置选项可以参考官网文档。这里我们只针对RSK中的常用配置做讲解。
 
-> root = true|false
+> **root = true|false**
 >
 > &gt;&gt; 配置搜索停止标记(特殊配置项)。
 >
@@ -274,44 +274,59 @@ git add .
 > charset = utf-8 # 合并自level2
 >
 > insert_final_newline = true # 合并自level3
->
-> indent_style = space|tab
+
+---
+
+> **indent_style = space|tab**
 >
 > &gt;&gt; 配置缩进符。
 >
 >一般情况下推荐使用space，毕竟各操作系统中对于tab的缩进大小不是统一的，对于使用缩进来做语法分析的语言，例如Python。会产生意料之外的代码错误。而使用space可规避此风险，并且在编辑器或IDE中你依然可以使用tab键来缩进。EditorConfig插件会自动帮你置换成对应的缩进大小。
->
-> indent_size = [NUMBER]
+
+---
+
+> **indent_size = [NUMBER]**
 >
 > &gt;&gt; 配置缩进符。值为数值类型。
 配置代码的缩进大小，常用配置为2或者4。当然你想要来个3也没人拦着。
->
-> end_of_line = crlf|lf|cr
+
+---
+
+> **end_of_line = crlf|lf|cr**
 >
 > &gt;&gt; 配置代码行结束符。crlf为Windows所用，lf为Linux所用，cr为Mac之类系统所用。
 >
 >此选项个人认为是必选项，重中之重。特别推荐设置为lf。一旦在项目开发中出现行结束符冲突，对于使用git为代码管理的项目，解决结束符冲突相当之麻烦，以至于会出现通过git打出的patch不能应用回git项目和diff不正确的极端情况。且现在的服务器大部分为Linux，即使是Windows服务器，应用lf也不会有太大影响。
->
-> charset = utf-8|utf-16be|...
+
+---
+
+> **charset = utf-8|utf-16be|...**
 >
 > &gt;&gt; 配置文件字符集。
->
-> trim_trailing_whitespace = true|false
+
+---
+
+> **trim_trailing_whitespace = true|false**
 >
 > &gt;&gt; 配置是否去除行尾的空白符。
 >
 > 对于使用git的项目来说，此配置也是必选。行尾出现的空白符会导致git的patch应用出错以及一些其他意想不到的异常错误。
->
-> insert_final_newline = true|false
+
+---
+
+> **insert_final_newline = true|false**
 >
 > &gt;&gt; 配置是否在最后一行插入空白行。
 >
 > 虽然在RSK中，此配置项不建议修改。但其实在项目开发过程中也不会有太大的影响。个人认为可根据需要配置。另外，在稍后要介绍的Lint工具中，也会出现跟此配置项的配置。
->
-> max_line_length = [NUMBER]|off
+
+---
+
+> **max_line_length = [NUMBER]|off**
 >
 > &gt;&gt; 配置是否根据指定的行字符长度强制截断代码行。off为关闭此功能。
->
+
+---
 > [更多配置项请参考此wiki](https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties)
 >
 > [需要／不需要安装插件的编辑器和IDE列表参考此主页](http://editorconfig.org/)
