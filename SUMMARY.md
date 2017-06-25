@@ -2,7 +2,6 @@
 
 * [前言](README.md)
 * [第一章 代码](dai-ma.md)
-  * [脚手架设计](dai-ma/jiao-shou-jia-she-ji.md)
 * [第二章 流程](she-ji-yuan-ze.md)
 * [第三章 测试](di-san-zhang-ce-shi.md)
 * [第四章 文档](di-si-zhang-wen-dang.md)
