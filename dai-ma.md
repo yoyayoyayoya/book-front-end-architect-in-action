@@ -312,7 +312,6 @@ git add .
 >
 > &gt;&gt; 配置是否根据指定的行字符长度强制截断代码行。off为关闭此功能。
 >
-> 虽然在RSK中，此配置项不建议修改。但其实在项目开发过程中也不会有太大的影响。个人认为可根据需要配置。另外，在稍后要介绍的Lint工具中，也会出现跟此配置项的配置。
->
 > [更多配置项请参考此wiki](https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties)
+>
 > [需要／不需要安装插件的编辑器和IDE列表参考此主页](http://editorconfig.org/)
