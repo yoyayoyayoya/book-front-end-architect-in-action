@@ -520,4 +520,14 @@ Flow配置最复杂的一部分，它可以指定emoji输出，log，额外检�
 ^0.13.1 表示 &gt;=0.13.1 &lt;0.14.0   
 ^1.2.3" 表示 &gt;=1.2.3 &lt;2.0.0   
 
-所有Flow的配置选项讲解完毕，现在你去看RSK配置的.flowconfig，是不是一目了然。
+所有Flow的配置选项讲解完毕，现在你去看RSK配置的.flowconfig，是不是一目了然。   
+下面的工具配置和使用不是很复杂。所以我就蜻蜓点水的介绍一下它们所对应的代码工具。
+#### .nycrc   
+[Istanbul](https://istanbul.js.org/) 是针对ES5和ES2015+的代码测试覆盖率检测工具。它支持多种测试框架包括[tap](https://github.com/tapjs/node-tap)、[mocha](https://github.com/mochajs/mocha)、[AVA](https://github.com/avajs/ava)等。覆盖率是代码流程中的一项重要指标。但到底它需要制定多少的覆盖率，我们架构师必须要根据实际情况来实时调整。100%那是一种理想，而现实就是很多时候为了达到100%的指标。测试就是很猥琐的为了覆盖而测试，并没有什么实际意义。大部分情况下70%～80%是个不错的区间。可根据项目紧急程度来下调覆盖率。不过时间再紧下调也得有个底线，底线覆盖率是代码质量的保障。   
+
+#### .stylelintrc.js
+[StyleLint](https://stylelint.io/)，css的lint工具，重要程度和ESLint一样。
+后期会介绍一些CSS方法论比如BEM等来配合StyleLint。   
+
+#### .travis.yml
+[Travis CI](https://travis-ci.org/)。一款在线的GitHub项目CI工具。这个在开发GitHub项目且不需要整套CI和CD流程的情况下比较实用，不要自己安装CI工具即可使用，非常方便。在实际开发中这种在线的CI就不能满足使用了。一般来说是使用[Jenkins](https://jenkins.io/)、[TeamCity](https://www.jetbrains.com/teamcity/)、[BamBoo](https://www.atlassian.com/software/bamboo)等专业CI套件。
