@@ -221,7 +221,7 @@ git add .
 
 
 ### 项目开发配置
-我们从配置文件开始，带出其所属技术，逐个的去了解RSK所用到的项目开发技术。
+我们从配置文件开始，带出其所属技术，逐个的去了解RSK所用到的项目开发技术。若无特殊说明，所有配置文件均放置在项目根目录下。
 
 #### .editorconfig
 [EditorConfig](http://editorconfig.org) 帮助开发者们在不同的编辑器与IDE之间定义与维护一致性的代码开发风格。主要作用说白了就是统一代码开发风格。比如说行结束符、缩进大小、字符集的设置等等。在实际的项目开发过程中，即使所有开发者都使用同一种开发工具，也不能确保所有开发者的代码开发风格能保持一致，大部分情况下会因为个人开发习惯而导致缩进大小不一致、字符集不同、行结束符不同的情况，造成项目开发中发生代码冲突，往往这些冲突会增加大量的代码重置和风格一致化调整带来的沟通成本。在以往大部分的项目管理中，会通过文档或强制规则来确保代码风格的统一性。但我们自己知道，通过人为的管理代码风格根本不靠谱。自动化的技术支持才是王道。EditorConfig为我们提供了一条康庄大道。具体的配置选项可以参考官网文档。这里我们只针对RSK中的常用配置做讲解。
@@ -330,3 +330,115 @@ git add .
 > [更多配置项请参考此wiki](https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties)
 >
 > [需要／不需要安装插件的编辑器和IDE列表参考此主页](http://editorconfig.org/)
+
+#### .eslintrc.js
+[ESLint](http://eslint.org/) 大名鼎鼎的代码校验工具Lint的ES版，配合Atom的插件可做到保存即自动检查、格式化代码、智能提示等诸多实用功能。RSK跟随流行趋势，选用了Airbnb开源的ES代码规范。跟着大公司走，没错的。要愉快的使用ESLint，需要对项目进行整套的配置与依赖包安装。它的配置方式也多种多样，可以通过文件内的注释、\*.eslintrc.\*、package.json、command line方式添加和应用校验规则。ESLint的配置主要分为4个部分：解析器、应用环境、全局变量、规则。
+我们先跟随RSK来学习它的配置方式，等你熟练之后，再根据需要选择自己的配置方式。所谓贪多嚼不烂。   
+RSK采用的是.eslintrc.js为主，package.json为辅助的方式。我们先来看看.eslintrc.js中都配置了哪些内容。   
+
+> **parser: 'babel-eslint'**  
+>
+> &gt;&gt; 配置ES文件解析器，ESLint默认设置为Esprima。官方提到的解析器有以下三个：
+> [Esprima](https://npmjs.com/package/esprima)
+> [Babel-ESLint](https://npmjs.com/package/babel-eslint)
+> [typescript-eslint-parser(Experimental) ](https://npmjs.com/package/typescript-eslint-parser)
+> RSK选用babel的eslint包来解析ES文件。
+> 对应的npm包参考： [babel-eslint](https://github.com/babel/babel-eslint)
+
+---
+
+> **extends: [   
+      'airbnb',   
+      'plugin:css-modules/recommended',   
+    ]**
+>
+> &gt;&gt; 引入已经配置好的规则集。
+> 此处应用的是Airbnb开源的规则集。
+> 对应的npm包和style guide参考： [eslint-config-airbnb](https://github.com/airbnb/javascript)，建议多花些时间了解Airbnb都给我们规范了哪些代码规则。便于今后为项目做规则定制。
+> 应用css-modules插件中的规则集。
+
+
+---
+
+> **plugins: [
+      'css-modules',
+    ]**
+>
+> &gt;&gt; 引入第三方插件，增强和扩展ESLint功能。以eslint-plugin-为前缀的插件，可以在配置时省略该前缀。例如eslint-plugin-custom可以配置成custom。
+> **提示：** 全局方式安装的ESLint只能应用基于全局安装的插件模块，而本地方式安装的ESLint，可以应用全局或本地插件模块。按照此提示，我建议各位按本地方式安装ESLint。
+> RSK引入css-modules插件，检查代码引入的css／scss中的未被使用或未定义的类。对应的npm包和使用介绍参考：
+[eslint-plugin-css-modules](https://github.com/atfzl/eslint-plugin-css-modules)
+
+---
+
+> **globals: {
+      \__DEV__: true,
+    }**
+>
+> &gt;&gt; 配置允许使用的全局变量。所有不在此配置范围的全局变量会被检测出并标为错误项。就当前配置而言，RSK仅允许使用\__DEV__这个全局变量。你可以在此配置其他你需要使用的全局变量。
+
+---
+
+> **env: {
+      browser: true,
+    }**
+>
+> &gt;&gt; 配置当前ESLint的应用环境。ESLint提供了多达25种应用环境。每个应用环境都带有预定义的全局变量。根据你自身的需要来添加或修改。RSK的默认配置为仅作用于浏览器环境。或者你也可以自定义一个应用环境分享给别人使用。
+
+---
+
+敲黑板划重点了，我们来看看最主要的校验规则是怎么配置的。
+
+> **"rules":{"rule":value|[value, optionalValue]}**
+
+> &gt;&gt;规则可以配置在注释和配置文件中，每条规则可设置3种值，每个值可以为string或number。
+> **"off"|0** - 关闭规则
+> **"warn"|1** - 开启警告模式，不影响代码。
+> **"error"|2** - 开启错误模式，当其触发时，exit code为1。
+> 除了上述值外，还可为规则配置可选值（可选值的值配置对应规则的不同也会有不同）。
+> 举个例子
+> /\* eslint quotes: ["error", "double"], curly: 2 \*/
+> "rules": {
+> &nbsp;&nbsp; "quotes": ["error", "double"],
+> &nbsp;&nbsp; "curly": 2
+> }
+> 上面两个配置是等价的。第一条规则限制了字符串的引号为双引号。第二条规则是禁止函数使用柯里化。两条规则都开启的是错误模式。
+
+>  了解了如何配置规则后，我们来看看RSK都为我们预设了哪些规则。
+
+> **'import/extensions': [   
+&nbsp;&nbsp;&nbsp;&nbsp;'error',   
+&nbsp;&nbsp;&nbsp;&nbsp;'always',   
+&nbsp;&nbsp;&nbsp;&nbsp;{   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;js: 'never',    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jsx: 'never',   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mjs: 'never',   
+&nbsp;&nbsp;&nbsp;&nbsp;},   
+      ]**
+>
+> &gt;&gt;extensions规则出自[import](https://github.com/benmosher/eslint-plugin-import)插件。之前说过插件是需要配置在plugins里的。而import并没有配置就直接在rules中引用其规则。不知道是不是隐藏属性。这条规则是定义如何校验导入文件的扩展名。extensions规则的值可以是string、object或者两者的组合。当string值为“never”（默认值）时，会限制在导入文件是使用任何扩展名。 “always”则是限定导入文件时必须指定其扩展名。如果你想分别指定不同的导入规则，可以使用object方式，例如{"js": "never", "json": "always"}是限定json文件必须指定扩展名，js文件不可以指定扩展名。
+> 根据extensions规则的使用描述，RSK中定义的extensions规则为js|jsx|mjs文件不可以指定扩展名，除此以外的其他文件类型必须指定扩展名，否则一律报错。
+
+---
+
+> **'import/no-extraneous-dependencies': 'off'**
+> &gt;&gt;同样来自import插件。它是禁止导入任何不在package.json的dependencies, devDependencies, optionalDependencies 或 peerDependencies中配置的模块。它会寻找离它最近的父文件夹中的package.json文件，如果没有找到，则不会lint任何代码。你可以配置packageDir来指定package.json。具体用法比较复杂，推荐查看其[文档](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md)
+> 由于[某些原因](https://github.com/benmosher/eslint-plugin-import/issues/458)，RSK关闭了这条校验规则。
+
+---
+
+> **'no-console': [
+&nbsp;&nbsp;'error',
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;allow: ['warn', 'error', 'info'],
+&nbsp;&nbsp;},
+]**
+> &gt;&gt; ESLint 内置规则，它会限制console的使用范围。
+> RSK推荐的是不使用log来打印信息，而是用对应的warn|error|info。
+
+---
+
+> **'react/jsx-filename-extension': 'off'**
+> **'react/prefer-stateless-function': 'off'**
+> &gt;&gt;这两条规则出自[react](https://github.com/yannickcr/eslint-plugin-react)插件。它包含了大部分React校验规则。这里就留给你去慢慢了解了。
+> RSK在这里关闭jsx文件扩展名和无状态函数的校验规则。
