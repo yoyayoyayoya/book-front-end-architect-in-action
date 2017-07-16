@@ -391,20 +391,20 @@ RSK采用的是.eslintrc.js为主，package.json为辅助的方式。我们先�
 
 > **"rules":{"rule":value|[value, optionalValue]}**
 
-> &gt;&gt;规则可以配置在注释和配置文件中，每条规则可设置3种值，每个值可以为string或number。
-> **"off"|0** - 关闭规则
-> **"warn"|1** - 开启警告模式，不影响代码。
-> **"error"|2** - 开启错误模式，当其触发时，exit code为1。
-> 除了上述值外，还可为规则配置可选值（可选值的值配置对应规则的不同也会有不同）。
-> 举个例子
-> /\* eslint quotes: ["error", "double"], curly: 2 \*/
-> "rules": {
-> &nbsp;&nbsp; "quotes": ["error", "double"],
-> &nbsp;&nbsp; "curly": 2
-> }
-> 上面两个配置是等价的。第一条规则限制了字符串的引号为双引号。第二条规则是禁止函数使用柯里化。两条规则都开启的是错误模式。
+> &gt;&gt;规则可以配置在注释和配置文件中，每条规则可设置3种值，每个值可以为string或number。   
+> **"off"|0** - 关闭规则   
+> **"warn"|1** - 开启警告模式，不影响代码。   
+> **"error"|2** - 开启错误模式，当其触发时，exit code为1。   
+> 除了上述值外，还可为规则配置可选值（可选值的值配置对应规则的不同也会有不同）。   
+> 举个例子   
+> /\* eslint quotes: ["error", "double"], curly: 2 \*/   
+> "rules": {   
+> &nbsp;&nbsp; "quotes": ["error", "double"],   
+> &nbsp;&nbsp; "curly": 2   
+> }   
+> 上面两个配置是等价的。第一条规则限制了字符串的引号为双引号。第二条规则是禁止函数使用柯里化。两条规则都开启的是错误模式。   
 
->  了解了如何配置规则后，我们来看看RSK都为我们预设了哪些规则。
+>  了解了如何配置规则后，我们来看看RSK都为我们预设了哪些规则。   
 
 > **'import/extensions': [   
 &nbsp;&nbsp;&nbsp;&nbsp;'error',   
@@ -416,12 +416,12 @@ RSK采用的是.eslintrc.js为主，package.json为辅助的方式。我们先�
 &nbsp;&nbsp;&nbsp;&nbsp;},   
       ]**
 >
-> &gt;&gt;extensions规则出自[import](https://github.com/benmosher/eslint-plugin-import)插件。之前说过插件是需要配置在plugins里的。而import并没有配置就直接在rules中引用其规则。不知道是不是隐藏属性。这条规则是定义如何校验导入文件的扩展名。extensions规则的值可以是string、object或者两者的组合。当string值为“never”（默认值）时，会限制在导入文件是使用任何扩展名。 “always”则是限定导入文件时必须指定其扩展名。如果你想分别指定不同的导入规则，可以使用object方式，例如{"js": "never", "json": "always"}是限定json文件必须指定扩展名，js文件不可以指定扩展名。
+> &gt;&gt;extensions规则出自[import](https://github.com/benmosher/eslint-plugin-import)插件。之前说过插件是需要配置在plugins里的。而import并没有配置就直接在rules中引用其规则。不知道是不是隐藏属性。这条规则是定义如何校验导入文件的扩展名。extensions规则的值可以是string、object或者两者的组合。当string值为“never”（默认值）时，会限制在导入文件时使用任何扩展名。 “always”则是限定导入文件时必须指定其扩展名。如果你想分别指定不同的导入规则，可以使用object方式，例如{"js": "never", "json": "always"}是限定json文件必须指定扩展名，js文件不可以指定扩展名。   
 > 根据extensions规则的使用描述，RSK中定义的extensions规则为js|jsx|mjs文件不可以指定扩展名，除此以外的其他文件类型必须指定扩展名，否则一律报错。
 
 ---
 
-> **'import/no-extraneous-dependencies': 'off'**
+> **'import/no-extraneous-dependencies': 'off'**   
 > &gt;&gt;同样来自import插件。它是禁止导入任何不在package.json的dependencies, devDependencies, optionalDependencies 或 peerDependencies中配置的模块。它会寻找离它最近的父文件夹中的package.json文件，如果没有找到，则不会lint任何代码。你可以配置packageDir来指定package.json。具体用法比较复杂，推荐查看其[文档](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md)
 > 由于[某些原因](https://github.com/benmosher/eslint-plugin-import/issues/458)，RSK关闭了这条校验规则。
 
@@ -432,13 +432,92 @@ RSK采用的是.eslintrc.js为主，package.json为辅助的方式。我们先�
 &nbsp;&nbsp;{
 &nbsp;&nbsp;&nbsp;&nbsp;allow: ['warn', 'error', 'info'],
 &nbsp;&nbsp;},
-]**
-> &gt;&gt; ESLint 内置规则，它会限制console的使用范围。
+]**   
+> &gt;&gt; ESLint 内置规则，它会限制console的使用范围。   
 > RSK推荐的是不使用log来打印信息，而是用对应的warn|error|info。
 
 ---
 
-> **'react/jsx-filename-extension': 'off'**
-> **'react/prefer-stateless-function': 'off'**
+> **'react/jsx-filename-extension': 'off'**   
+> **'react/prefer-stateless-function': 'off'**   
 > &gt;&gt;这两条规则出自[react](https://github.com/yannickcr/eslint-plugin-react)插件。它包含了大部分React校验规则。这里就留给你去慢慢了解了。
 > RSK在这里关闭jsx文件扩展名和无状态函数的校验规则。
+
+#### .flowconfig
+[Flow](https://flow.org/)([中文版](https://zhenyong.github.io/flowtype/))。js静态类型检查器。它可以提供运行时的类型检查，在js运行前帮我们找出常见bug，立刻检测代码变化，在开发js时快速不断的提供反馈。与它类似的应该是TypeScript了。在做技术选型的时候，我们根据组员的接受能力与学习曲线来决定是否Flow还是TypeScript。无论选择谁，类型检查对于咱架构师而言都是出门在外，居家旅行的必备工具。当面对团队成员经验和能力参差不齐、业务复杂、开发时间紧的情况，光靠ESLint肯定是不够的，漂亮的代码并不能保证功能的正确性。   
+
+Flow的启用很简单，但具体的设置稍后再讲，我们先从[配置](https://flow.org/en/docs/config/)([中文版](https://zhenyong.github.io/flowtype/docs/advanced-configuration.html#_))开始入手。默认情况下，Flow会以.flowconfig所在的目录为根目录开始检测（所有文件和子目录）。   
+
+配置共有5个部分：(这里偷点懒，直接引用了Flow中文版的相关描述)   
+
+**[include]**   
+用来告诉 flow 还要检测哪些文件或者目录（所有子文件）。 这一栏配置的每一行表示一个待检测的路径，可以使用相对于根目录的路径，或者绝对路径， 支持一个或多个星号通配符。   
+举例说明，如果 /path/to/root/.flowconfig 包含了下面配置。   
+> [include]   
+> ../externalFile.js   
+> ../externalDir/   
+> ../otherProject/\*.js   
+> ../otherProject/\*\*/coolStuff/   
+
+当 Flow 检测项目 /path/to/root 的时候，检测文件包括：   
+/path/to/root/ (自动包含)   
+/path/to/externalFile.js   
+/path/to/externalDir/   
+/path/to/otherProject/ 下所有以 .js 结尾的文件   
+/path/to/otherProject 下任意名为 coolStuff/ 的目录   
+
+**[ignore]**   
+用来告诉 flow 哪些文件不需要检测， 路径匹配使用正则表达式。默认为空。   
+以下几点要注意:   
+1. 这是[OCaml 正则表达式](http://caml.inria.fr/pub/docs/manual-ocaml/libref/Str.html#TYPEregexp)。   
+2. 这些正则表达式匹配的绝对路径. 通常应该以 .* 开头。     
+3. [ignore] 在 [include] 之后， 如果同时 include 和 ignore 同个路径，那么就会 ignore。
+举例说明：   
+
+>[ignore]   
+>.\*/__tests__/.\*   
+>.\*/src/\(foo\|bar\)/.\*   
+>.\*\\.ignore\\.js   
+
+该 [ignore] 配置表示忽略：  
+
+所有名为 __tests__ 目录下的目录和文件，
+所有.\*/src/foo 或 .\*/src/bar下
+所有以 .ignore.js 结尾命名的文件。
+从 Flow v0.23.0 开始，你可以在正则中用&lt;PROJECT_ROOT&gt;占位符表示根目录的绝对路径。 对于相对路径的场景就很有用了，例如：
+
+>[ignore]    
+>&lt;PROJECT_ROOT&gt;/__tests__/.*   
+
+这就忽略了项目根目录下 __tests__ 的目录和文件。   
+不像之前的 .\*/__tests__/.\* 那样忽略了整个系统名为 __tests__ 的目录。   
+
+**[libs]**   
+当检测代码的时候， flow 就会包含指定的 声明 (接口文件)。   
+[libs] 下每行配置表示要包含的一个目录或文件，相对与根目录的路径，或者绝对路径。   
+
+**[options]**   
+Flow配置最复杂的一部分，它可以指定emoji输出，log，额外检测的文件类型等诸多功能。各位客官请查看其文档（[英文版](https://flow.org/en/docs/config/options/)[中文版](https://zhenyong.github.io/flowtype/docs/advanced-configuration.html#options)）按需配置。   
+
+**[version]**   
+指定 Flow 的版本。   
+如果没有配置或者留白, 则允许任意版本. 如果配置了，但是运行的版本不匹配，就报错退出。  
+例如你配置 .flowconfig 为
+
+>[version]   
+>0.22.0   
+
+你运行 Flow 版本未 v0.21.0, 则报错:   
+
+"Wrong version of Flow. The config specifies version 0.22.0 but this is version 0.21.0"   
+
+目前为止，Flow提供下列方式为指定支持的版本:   
+
+1. 明确的版本, (e.g. 0.22.0, which only matches 0.22.0)。   
+2. 范围, (例如 &gt;=0.13.0 &lt;0.14.0 将 匹配 0.13.0 和 0.13.5，单步包括 0.14.0)。   
+3. Caret 范围，下界：左起第一个非0数字升1，后面改为0。     
+^0.13.0 表示 &gt;=0.13.0 &lt;0.14.0    
+^0.13.1 表示 &gt;=0.13.1 &lt;0.14.0   
+^1.2.3" 表示 &gt;=1.2.3 &lt;2.0.0   
+
+所有Flow的配置选项讲解完毕，现在你去看RSK配置的.flowconfig，是不是一目了然。
