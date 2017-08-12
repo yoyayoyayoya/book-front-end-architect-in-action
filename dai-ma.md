@@ -46,7 +46,7 @@
 >
 > **高度定制化**
 
-特别的，RST前后端数据交互使用的是GraphQL技术，能够高效的定制化前端数据组件，摆脱了版本化严重的RestFul API，同时也减少了数据负载和交互次数。在后续的定制设计中，我们将会引入Apollo框架来处理客户端和服务端的GraphQL数据。在整个RST中，各种技术纷繁复杂，我们先抛开他们，由浅入深，慢慢品味这款脚手架给我们带来的乐趣。
+特别的，RST前后端数据交互使用的是GraphQL技术，能够高效的定制化前端数据组件，摆脱了版本化严重的RestFul APIs，同时也减少了数据负载和交互次数。在后续的定制设计中，我们将会引入Apollo框架来处理客户端和服务端的GraphQL数据。在整个RST中，各种技术纷繁复杂，我们先抛开他们，由浅入深，慢慢品味这款脚手架给我们带来的乐趣。
 
 ### 配置RST环境
 
@@ -607,3 +607,103 @@ addNew方法有个string类型的返回值，你可以注释掉return语句或�
 
 #### 其他配置
 前面就算是抛砖引玉了，3个特性代表了大部分项目需要的特性，实际中还会需要更多，比如说代码格式化、Git支持、自动补全、语言代码片段提示等。建议各位在为团队搭建代码开发环境的过程中，按照按需添加和实用为先的原则来配置编辑器插件。切莫贪多贪全，否则就会沦为编辑器和插件的奴隶，得不偿失。
+
+### 开发环境配置
+有关开发工具、IDE辅助插件的配置就告一段落。接下来我们就开始着眼于实际开发相关的配置，那这些配置是什么呢？
+
+> 语言开发辅助插件
+> 项目构建、部署、辅助开发插件
+
+RSK把以上所有配置文件都放在了根目录下的tools目录中。
+
+#### 语言开发辅助插件 
+现今流行的前端开发语言技术中，ES已经是主流中的主流，虽然TypeScript有后来居上的趋势，但最终TS还是为ES服务的。所以[Babel](https://babeljs.io/)就成为了ES阵营当仁不让的主角插件。Babel支持ES2015及后续更高版本的ES版本。一般情况下，配置Babel是在根目录下创建.babelrc文件。RSK选择的是配置在package.json中，两种方式并没有什么优劣之分，实际开发中按照自己的需要去选择好了。
+
+ES并没有被浏览器和js解析引擎正式完全支持，Babel存在的意义之一就是对ES做编译转换，另外一个最重要的功能就是为浏览器和运行时环境做ES功能补全（俗称腻子粉 polyfill），这两者是以ES为基础的开发项目缺一不可的特性。光把ES转换成JS是没用的，ES中的新特性例如常用的Object.assign等内置函数需要polyfill提前把它们实现到现有的JS中。具体的ES语言特性支持度和polyfill所支持的特性请参考[此处](https://babeljs.io/)。
+
+在配置Babel之前我们需要思考几个问题：   
+1. 到底哪些特性是我们需要的，哪些可以以后再支持？Babel可以做到一揽子包圆把特性都给我们，也可以用单独的插件提供所需ES特性。   
+2. Babel需要支持的目标环境有哪些？比如是否需要支持NodeJs运行时。浏览器的版本需要支持哪些等等都是必须要考虑的因素。
+3. Babel需要支持哪些JS开发框架？ 使用ReacJs时就要提前设置preset等。
+
+回答了上面3个问题之后，Babel的配置需求你已经掌握的八九不离十，剩下的就是敲代码，找插件。
+
+择日不如撞日，现在就来尝试一下：
+1. 需要支持到[ES2016 stage-2](http://exploringjs.com/es2016-es2017/ch_tc39-process.html)的特性
+2. 浏览器没有特别要求，按照当前使用的Node版本来编译ES，例如Node V4已支持带箭头的闭包函数特性，如果ES是运行在Node版本V4或更高版本时，Babel就不会把箭头函数编译成JS。
+3. 需要支持ReactJs。
+
+参考[Babel Plugins](http://babeljs.io/docs/plugins/)章节，你就会知道如果按照你的答案去配置Babel。Babel的大部分配置都是在preset中完成，建议各位着重学习preset部分。
+
+我的答案是参考RSK的配置而来的，它的配置如下（配置在package.json中）：
+
+```json
+"babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "stage-2",
+      "react"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul",
+          "rewire"
+        ]
+      }
+    }
+  },
+  
+```
+你已经注意到了，RSK使用[env属性](http://babeljs.io/docs/usage/babelrc/#use-via-package-json)为test环境（BABEL_ENV=test）配置了额外的插件。你也可以为其他环境例如dev配置其他插件辅助开发。
+
+简单介绍一下test插件：   
+1. [istanbul](https://github.com/jmcriffey/babel-istanbul): 代码覆盖率辅助工具。
+2. [rewire](https://github.com/jhnns/rewire): 模拟模块功能的插件，在单元测试中特别有用，有了它就可以模拟任何第三方模块，轻松完成功能测试。
+
+完整的Babel package plugins配置就不在这里赘述了，具体请参考package.json中devDependencies的Babel配置。
+
+#### 项目构建、部署、辅助开发插件
+市面上可选择的JS构建工具太多太多，新兴分子Rollup，老牌劲旅Gulp，流行度很高的Webpack等。可谓百花争鸣，纷乱繁杂。像我这样的人很容易产生选择恐惧症。我们还是继续跟着RSK的步伐，从Webpack开始，慢慢的把你带进JS项目构建的大坑，欢迎入坑！
+
+##### Webpack 配置
+做好准备，这是本书中最复杂最难的部分，没有之一。包括后来的SSR部分都排不上号。所以你一定要打起精神，加速大脑，做好小笔记。因为你将要学习的是：   
+
+1. Code splitting 如何进行代码文件分离。
+2. 服务端ES的babel支持。
+3. 各类型文件的加载与构建。
+4. 代码热加载。
+
+我会把所有/tools/webpack.config.js中的大部分代码贴过来一一详解，如果你要说我是凑字数的话，那么我会告诉你，
+
+没错！
+
+```javascript
+import AssetsPlugin from 'assets-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+```
+[AssetsPlugin](https://github.com/kossnocorp/assets-webpack-plugin) 会把所有Webpack生成的文件资源（js和css）都记录到一个json文件中。这个json会在SSR（服务端渲染）直出页面时用到。
+
+[BundleAnalyzerPlugin](https://github.com/robertknight/webpack-bundle-size-analyzer) 很好玩的一个插件，它会所有JS模块都绘制到一个页面中，让你一目了然的对模块数量、大小等信息有个大致的概念。也可以在后续模块优化时提供一定的参考。
+
+```javascript
+const isDebug = !process.argv.includes('--release');
+const isVerbose = process.argv.includes('--verbose');
+const isAnalyze = process.argv.includes('--analyze') || process.argv.includes('--analyse');
+```
+设置3个全局变量，后续用于控制构建流程。
+
+
+
+
+
+
+
+### 开发框架搭建
