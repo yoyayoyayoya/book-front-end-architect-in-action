@@ -24,7 +24,7 @@
 
 ## 实例分析
 
-[React Starter Kit \(RST\)](https://github.com/kriasoft/react-starter-kit) 是kriasoft开源的一款基于React的产品级脚手架项目，集成了大部分现代级主流前端开发技术栈。能让你更加快速、高效、稳定的开发前端项目，它有以下特点：
+[React Starter Kit \(RSK\)](https://github.com/kriasoft/react-starter-kit) 是kriasoft开源的一款基于React的产品级脚手架项目，集成了大部分现代级主流前端开发技术栈。能让你更加快速、高效、稳定的开发前端项目，它有以下特点：
 
 > **组件驱动式UI**
 >
@@ -46,19 +46,19 @@
 >
 > **高度定制化**
 
-特别的，RST前后端数据交互使用的是GraphQL技术，能够高效的定制化前端数据组件，摆脱了版本化严重的RestFul APIs，同时也减少了数据负载和交互次数。在后续的定制设计中，我们将会引入Apollo框架来处理客户端和服务端的GraphQL数据。在整个RST中，各种技术纷繁复杂，我们先抛开他们，由浅入深，慢慢品味这款脚手架给我们带来的乐趣。
+特别的，rsk前后端数据交互使用的是GraphQL技术，能够高效的定制化前端数据组件，摆脱了版本化严重的RestFul APIs，同时也减少了数据负载和交互次数。在后续的定制设计中，我们将会引入Apollo框架来处理客户端和服务端的GraphQL数据。在整个rsk中，各种技术纷繁复杂，我们先抛开他们，由浅入深，慢慢品味这款脚手架给我们带来的乐趣。
 
-### 配置RST环境
+### 配置rsk环境
 
 本书的所有分析环境都是基于git的，所以在继续探索本书之前，还请各位能够确保git已经在你的系统中安家。
 
-确定git可用后，让我们从github上clone一份RST并把它放到rst目录并进入其中。除非文中特别说明，之后书中都以rst来代称脚手架目录。
+确定git可用后，让我们从github上clone一份rsk并把它放到rsk目录并进入其中。除非文中特别说明，之后书中都以rsk来代称脚手架目录。
 
 ```bash
-git clone https://github.com/kriasoft/react-starter-kit.git rst && cd rst
+git clone https://github.com/kriasoft/react-starter-kit.git rsk && cd rsk
 ```
 
-当然，也为了能够自由进行探索之旅，我们先开一个test的git分支，便于我们能够所欲为时而不用担心破坏RST的原始配置。
+当然，也为了能够自由进行探索之旅，我们先开一个test的git分支，便于我们能够所欲为时而不用担心破坏rsk的原始配置。
 
 ```bash
 git checkout -b test
@@ -70,7 +70,7 @@ git checkout -b test
 
 ### 品尝package.json
 
-对于NodeJs项目，最佳的分析入口非package.json莫属了，不过我们也不能逐条逐句的解读它，所以先抛开具体技术细节，先来看看RST能够让我们做些什么。如果说package.json是一本菜单的话，“scripts”条目就是其中的主菜部分，那么它有些什么美味呢？
+对于NodeJs项目，最佳的分析入口非package.json莫属了，不过我们也不能逐条逐句的解读它，所以先抛开具体技术细节，先来看看rsk能够让我们做些什么。如果说package.json是一本菜单的话，“scripts”条目就是其中的主菜部分，那么它有些什么美味呢？
 
 > _lint:js_
 >
@@ -88,7 +88,7 @@ yarn run lint:js
 
 > _lint:css_
 >
-> &gt;&gt;同样的，用lint去对css做检查。它的检查范围是所有文件夹中的css。你也许会疑惑，css文件通常不是放在某个静态文件目录中吗？对，通常是的，但RST中组件都是组件化开发的，css文件会放在对应的组件目录中，我们先按此不表，之后文中会带你进一步了解。
+> &gt;&gt;同样的，用lint去对css做检查。它的检查范围是所有文件夹中的css。你也许会疑惑，css文件通常不是放在某个静态文件目录中吗？对，通常是的，但rsk中组件都是组件化开发的，css文件会放在对应的组件目录中，我们先按此不表，之后文中会带你进一步了解。
 
 ![](/assets/lint_css.png)
 
@@ -214,7 +214,7 @@ git add .
 >
 > _start_
 >
-> &gt;&gt;这是是跟我们最息息相关也是开发中用的最多的功能，它就是启动development开发模式，该模式会启动web 服务并提供文件监控和热替换等常用功能。使用RST就是从简单的yarn start开始。由于它功能众多，具体细节将会在项目开发章节中详解。
+> &gt;&gt;这是是跟我们最息息相关也是开发中用的最多的功能，它就是启动development开发模式，该模式会启动web 服务并提供文件监控和热替换等常用功能。使用rsk就是从简单的yarn start开始。由于它功能众多，具体细节将会在项目开发章节中详解。
 
 好了，所有脚本功能咱们都浅尝辄止了一遍。趁着接触下一节内容之前，尽情的在test分支中玩耍吧。
 
@@ -332,7 +332,7 @@ git add .
 > [需要／不需要安装插件的编辑器和IDE列表参考此主页](http://editorconfig.org/)
 
 #### .eslintrc.js
-[ESLint](http://eslint.org/) 大名鼎鼎的代码校验工具Lint的ES版，配合Atom的插件可做到保存即自动检查、格式化代码、智能提示等诸多实用功能。RSK跟随流行趋势，选用了Airbnb开源的ES代码规范。跟着大公司走，没错的。要愉快的使用ESLint，需要对项目进行整套的配置与依赖包安装。它的配置方式也多种多样，可以通过文件内的注释、\*.eslintrc.\*、package.json、command line方式添加和应用校验规则。ESLint的配置主要分为4个部分：解析器、应用环境、全局变量、规则。
+[ESLint](http://eslint.org/) 大名鼎鼎的代码校验工具Lint的ES版，配合Atom的插件可做到保存即自动检查、修正代码、智能提示等诸多实用功能。RSK跟随流行趋势，选用了Airbnb开源的ES代码规范。跟着大公司走，没错的。要愉快的使用ESLint，需要对项目进行整套的配置与依赖包安装。它的配置方式也多种多样，可以通过文件内的注释、\*.eslintrc.\*、package.json、command line方式添加和应用校验规则。ESLint的配置主要分为4个部分：解析器、应用环境、全局变量、规则。
 我们先跟随RSK来学习它的配置方式，等你熟练之后，再根据需要选择自己的配置方式。所谓贪多嚼不烂。   
 RSK采用的是.eslintrc.js为主，package.json为辅助的方式。我们先来看看.eslintrc.js中都配置了哪些内容。   
 
